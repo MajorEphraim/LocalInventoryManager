@@ -7,7 +7,10 @@
         Title="Local Inventory Analytics Manager"
         Height="900"
         Width="1600"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="Manual"
+        Loaded="Window_Loaded"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
         Background="#F5F7FB">
 
     <Grid>
@@ -19,7 +22,6 @@
         </Grid.ColumnDefinitions>
 
         <!-- LEFT PANEL -->
-
         <Border Grid.Column="0"
                 Background="#031633">
 
@@ -124,7 +126,6 @@
         </Border>
 
         <!-- CENTER PANEL -->
-
         <Border Grid.Column="1"
                 Margin="10"
                 Background="White"
@@ -212,7 +213,6 @@
         </Border>
 
         <!-- RIGHT PANEL -->
-
         <Border Grid.Column="2"
                 Margin="10"
                 Background="White"
