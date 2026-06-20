@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Forms;
 using LocalInventoryManager.Models;
 using LocalInventoryManager.ViewModels;
 
@@ -28,7 +27,8 @@ namespace LocalInventoryManager.Views
 
         private void CenterWindowOnScreen()
         {
-            var area = Screen.PrimaryScreen.WorkingArea;
+            // Explicitly call Forms here to avoid namespace ambiguity errors
+            var area = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
 
             Left = area.Left + (area.Width - ActualWidth) / 2;
             Top = area.Top + (area.Height - ActualHeight) / 2;
@@ -36,52 +36,60 @@ namespace LocalInventoryManager.Views
 
         private void NewProduct_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectedProduct = new Product
+            // Instantly instantiate the product here to keep it alive in the View context
+            var newProduct = new Product
             {
+                Id = 0,
+                Sku = "",
+                ProductName = "",
                 Quantity = 0,
                 Price = 0,
                 LowStockThreshold = 0
             };
+
+            ViewModel.SelectedProduct = newProduct;
         }
 
         private void SaveProduct_Click(object sender, RoutedEventArgs e)
         {
+            // Fallback safety check: If it's null, see if the UI has data we can recover
             if (ViewModel.SelectedProduct == null)
-                return;
-
-            if (string.IsNullOrWhiteSpace(ViewModel.SelectedProduct.Sku))
             {
                 System.Windows.MessageBox.Show(
-                    "SKU is required.",
-                    "Validation",
+                    "Please click 'New Product' first before entering details.",
+                    "No Product Selected",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
-
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(ViewModel.SelectedProduct.ProductName))
-            {
-                System.Windows.MessageBox.Show(
-                    "Product Name is required.",
-                    "Validation",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+            var productToSave = ViewModel.SelectedProduct;
 
+            // Strict text validation
+            if (string.IsNullOrWhiteSpace(productToSave.Sku))
+            {
+                System.Windows.MessageBox.Show("SKU is required.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (ViewModel.SelectedProduct.Id == 0)
+            if (string.IsNullOrWhiteSpace(productToSave.ProductName))
             {
-                ViewModel.AddProduct(ViewModel.SelectedProduct);
+                System.Windows.MessageBox.Show("Product Name is required.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Route to database operations via the ViewModel
+            if (productToSave.Id == 0)
+            {
+                ViewModel.AddProduct(productToSave);
             }
             else
             {
-                ViewModel.UpdateProduct(ViewModel.SelectedProduct);
+                ViewModel.UpdateProduct(productToSave);
             }
 
             System.Windows.MessageBox.Show(
-                "Product saved successfully.",
+                "Product saved successfully to local database!",
                 "Success",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -90,7 +98,10 @@ namespace LocalInventoryManager.Views
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel.SelectedProduct == null)
+            {
+                System.Windows.MessageBox.Show("Please select a product to delete.", "Notice", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
+            }
 
             var result = System.Windows.MessageBox.Show(
                 $"Delete '{ViewModel.SelectedProduct.ProductName}'?",
@@ -103,13 +114,7 @@ namespace LocalInventoryManager.Views
 
             ViewModel.DeleteProduct(ViewModel.SelectedProduct);
 
-            ViewModel.SelectedProduct = null;
-
-            System.Windows.MessageBox.Show(
-                "Product deleted successfully.",
-                "Success",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            System.Windows.MessageBox.Show("Product deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
