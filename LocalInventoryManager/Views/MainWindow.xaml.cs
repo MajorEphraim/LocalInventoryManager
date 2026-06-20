@@ -2,6 +2,7 @@
 using System.Windows;
 using LocalInventoryManager.Models;
 using LocalInventoryManager.ViewModels;
+using LocalInventoryManager.Views;
 
 namespace LocalInventoryManager.Views
 {
@@ -115,6 +116,27 @@ namespace LocalInventoryManager.Views
             ViewModel.DeleteProduct(ViewModel.SelectedProduct);
 
             System.Windows.MessageBox.Show("Product deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+
+        private void EditProduct_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.SelectedProduct == null)
+            {
+                System.Windows.MessageBox.Show(
+                "Please select a product first.",
+                "Warning",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+                return;
+            }
+
+            var updateWindow = new UpdateProductWindow(ViewModel.SelectedProduct);
+
+            if (updateWindow.ShowDialog() == true)
+            {
+                ViewModel.UpdateProduct(ViewModel.SelectedProduct);
+            }
         }
     }
 }

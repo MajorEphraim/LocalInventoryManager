@@ -1,0 +1,233 @@
+﻿<Window x:Class="LocalInventoryManager.Views.UpdateProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Update Product"
+        Width="700"
+        Height="620"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F5F7FB"
+        WindowStyle="SingleBorderWindow">
+
+    <Border Margin="15"
+            Background="White"
+            CornerRadius="20">
+
+        <Grid Margin="30">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                    <Border Width="40"
+                            Height="40"
+                            Background="#2563EB"
+                            CornerRadius="20">
+
+                        <TextBlock Text="✎"
+                                   Foreground="White"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                    </Border>
+
+                    <TextBlock Text="UPDATE PRODUCT"
+                               Margin="15,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#1E293B"/>
+
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="✕"
+                        Width="35"
+                        Height="35"
+                        FontSize="16"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="Close_Click"/>
+
+            </Grid>
+
+            <!-- FORM -->
+
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto">
+
+                <Grid Margin="0,10,0,0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- SKU -->
+
+                    <StackPanel>
+
+                        <TextBlock Text="SKU *"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBox Height="42"
+                                 Padding="10"
+                                 Text="{Binding Sku, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </StackPanel>
+
+                    <!-- PRODUCT NAME -->
+
+                    <StackPanel Grid.Column="2">
+
+                        <TextBlock Text="Product Name *"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBox Height="42"
+                                 Padding="10"
+                                 Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </StackPanel>
+
+                    <!-- PRICE -->
+
+                    <StackPanel Grid.Row="1"
+                                Margin="0,20,0,0">
+
+                        <TextBlock Text="Unit Price (ZAR) *"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBox Height="42"
+                                 Padding="10"
+                                 Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </StackPanel>
+
+                    <!-- QUANTITY -->
+
+                    <StackPanel Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="0,20,0,0">
+
+                        <TextBlock Text="Stock Quantity *"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBox Height="42"
+                                 Padding="10"
+                                 Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </StackPanel>
+
+                    <!-- THRESHOLD -->
+
+                    <StackPanel Grid.Row="2"
+                                Grid.ColumnSpan="3"
+                                Margin="0,20,0,0">
+
+                        <TextBlock Text="Low Stock Threshold *"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBox Height="42"
+                                 Padding="10"
+                                 Text="{Binding LowStockThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="You will be alerted when stock falls below or equals this value."
+                                   Foreground="#64748B"
+                                   Margin="0,8,0,0"
+                                   FontSize="12"/>
+
+                    </StackPanel>
+
+                    <!-- STATUS -->
+
+                    <StackPanel Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                Margin="0,25,0,0">
+
+                        <TextBlock Text="Current Status"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,8"/>
+
+                        <Border Height="45"
+                                Background="#F8FAFC"
+                                BorderBrush="#E2E8F0"
+                                BorderThickness="1"
+                                CornerRadius="8">
+
+                            <TextBlock Text="{Binding Status}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="#2563EB"/>
+
+                        </Border>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </ScrollViewer>
+
+            <!-- FOOTER -->
+
+            <Grid Grid.Row="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1"
+                        Content="Cancel"
+                        Height="45"
+                        Margin="0,0,10,0"
+                        BorderBrush="#CBD5E1"
+                        Background="White"
+                        Click="Close_Click"/>
+
+                <Button Grid.Column="2"
+                        Content="Update Product"
+                        Height="45"
+                        Background="#2563EB"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontWeight="SemiBold"
+                        Click="Update_Click"/>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</Window>
