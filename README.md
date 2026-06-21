@@ -20,7 +20,7 @@ The application utilizes **Entity Framework Core** paired with a local **SQLite*
 * **Pattern:** MVVM (Model-View-ViewModel) Architecture 
 * **Database ORM:** Entity Framework Core 8.0
 * **Database Engine:** SQLite (Local Isolated Sandbox)
-* **Development IDE:** Visual Studio 2026 / 2022
+* **Development IDE:** Visual Studio 2026
 
 ### Project Structure
 ```text
